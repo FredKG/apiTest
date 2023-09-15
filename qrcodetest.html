@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Money Payment</title>
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+    <h1>Mobile Money Payment</h1>
+    <div>
+        <label for="qr-code">Scan QR Code:</label>
+        <input type="file" accept="image/*" capture="environment" id="qr-code" onchange="processQRCode()">
+    </div>
+    <div id="qr-result">
+        <!-- Display QR code scan results here -->
+    </div>
+    <script>
+        // JavaScript code for QR code processing
+        function processQRCode() {
+            const input = document.getElementById("qr-code");
+            const resultContainer = document.getElementById("qr-result");
+
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const qrCodeData = e.target.result;
+                    // You can use a QR code library to decode the data.
+                    // For simplicity, we'll just display the data as-is.
+                    resultContainer.innerHTML = `<p>Scanned QR Code Data:</p><pre>${qrCodeData}</pre>`;
+                    // Now, you can send this data to your backend for further processing.
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
+

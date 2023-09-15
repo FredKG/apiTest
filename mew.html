@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+</head>
+<body>
+    <h1>Payment Form</h1>
+    <form id="paymentForm">
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required><br>
+
+        <label for="payerPhoneNumber">Payer's Phone Number:</label>
+        <input type="text" id="payerPhoneNumber" name="payerPhoneNumber" required><br>
+
+        <label for="paymentReference">Payment Reference:</label>
+        <input type="text" id="paymentReference" name="paymentReference" required><br>
+
+        <label for="callbackUrl">Callback URL:</label>
+        <input type="url" id="callbackUrl" name="callbackUrl" required><br>
+
+        <button type="submit">Submit Payment</button>
+    </form>
+
+    <script>
+        document.getElementById("paymentForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            
+            const paymentData = {
+                amount: document.getElementById("amount").value,
+                payerPhoneNumber: document.getElementById("payerPhoneNumber").value,
+                paymentReference: document.getElementById("paymentReference").value,
+                callbackUrl: document.getElementById("callbackUrl").value,
+            };
+
+            fetch('/initiatePayment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(paymentData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // You can handle the success response as needed.
+                } else {
+                    alert(data.message);
+                    // Handle errors here.
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                // Handle network or other errors.
+            });
+        });
+    </script>
+</body>
+</html>
+
